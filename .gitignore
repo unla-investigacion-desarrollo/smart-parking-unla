@@ -1,0 +1,69 @@
+# Ignore .env files (environment variables)
+.env
+.env.* 
+
+# Ignore log files
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
+
+# Ignore editor and IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore node_modules (for Node.js projects)
+node_modules/
+
+# Ignore build and dependency artifacts
+dist/
+build/
+*.cache
+
+# Ignore coverage files
+coverage/
+
+# Ignore sensitive keys or credentials
+*.pem
+*.key
+*.crt
+*.p12
+
+# Ignore database files
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+*.bak
+
+# Ignore temporary files
+*.tmp
+*.temp
+~$*
+
+# Ignore compiled files
+*.o
+*.out
+*.class
+
+# Ignore archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Ignore secrets configuration
+secret.json
+secrets.yaml
+
+# Ignore deployment or production files
+.env.production
+.env.staging
+.env.local
