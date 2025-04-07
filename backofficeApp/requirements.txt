@@ -1,0 +1,7 @@
+Flask==3.1.0
+psycopg2-binary==2.9.1
+SQLAlchemy==2.0.16
+Werkzeug==3.1.0
+firebase-admin
+gunicorn
+Flask-SQLAlchemy==3.1.0
