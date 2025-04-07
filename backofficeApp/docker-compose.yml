@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  flask_app:
+    environment:
+    - FLASK_ENV=development
+    - FLASK_DEBUG=1
+    build: .
+    container_name: backoffice_smart_parking
+    ports:
+      - "5005:5005"
+    volumes:
+      - .:/app
+
+
