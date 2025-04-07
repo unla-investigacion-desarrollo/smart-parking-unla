@@ -1,3 +1,6 @@
+backofficeApp/app/__pycache__/
+Esp32-code/esp32v1/env_local.h
+
 # Ignore .env files (environment variables)
 .env
 .env.* 
