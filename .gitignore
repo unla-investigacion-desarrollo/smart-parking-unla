@@ -4,6 +4,8 @@ app/modules/*/__pycache__/
 app/models/*/__pycache__/
 app/__pycache__/
 
+*adminsdk-fbsvc-a8d214effb.json
+
 # Ignore .env files (environment variables)
 .env
 .env.* 

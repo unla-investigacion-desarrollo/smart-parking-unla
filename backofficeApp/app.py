@@ -6,11 +6,10 @@ from app.models import User
 
 app = create_app()
 
-
 @app.route('/')
 @login_required
 def home():
-    return render_template("home.html")
+    return redirect("/control_sensor/")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

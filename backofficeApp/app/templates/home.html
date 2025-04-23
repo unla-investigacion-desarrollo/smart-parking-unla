@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Homepage</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Leaflet CSS for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        /* Custom styles */
+        #map-hero {
+            height: 500px;
+            width: 100%;
+        }
+        
+        .card {
+            margin-bottom: 20px;
+            transition: transform 0.3s;
+            position: relative;
+            padding-bottom: 40px; /* Space for the buttons */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Added shadow */
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+        
+        /* Status icons styling - changed to vertical layout */
+        .status-icons {
+            display: flex;
+            flex-direction: column; /* Changed to column layout */
+            gap: 12px; /* Increased gap between rows */
+            margin-top: 15px;
+        }
+        
+        .status-icon {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem; /* Increased font size */
+        }
+        
+        .status-icon i {
+            font-size: 1.2rem; /* Slightly larger icons */
+        }
+        
+        .icon-green {
+            color: #28a745;
+        }
+        
+        .icon-red {
+            color: #dc3545;
+        }
+        
+        /* Better masonry layout with more even distribution */
+        .masonry-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            grid-gap: 20px;
+        }
+        
+        @media (min-width: 576px) {
+            .masonry-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .masonry-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Card action buttons styling */
+        .card-actions {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Smooth scroll to map */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Custom marker styling */
+        .custom-div-icon {
+            background: none;
+            border: none;
+        }
+        
+        .ripple-container {
+            position: relative;
+            width: 54px;
+            height: 54px;
+        }
+        
+        .ripple-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: rgba(233, 12, 51, 0.3);
+            border: 2px solid #e90c33;
+            border-radius: 50%;
+            animation: ripple 2.3s infinite ease-out;
+        }
+        
+        .ripple-circle-2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: rgba(240, 70, 141, 0.3);
+            border: 2px solid #f0468d;
+            border-radius: 50%;
+            animation: ripple 2.3s infinite ease-out;
+            animation-delay: -1.15s;
+        }
+        
+        @keyframes ripple {
+            0% {
+                width: 0px;
+                height: 0px;
+                opacity: 1;
+            }
+            100% {
+                width: 80px;
+                height: 80px;
+                opacity: 0;
+            }
+        }
+        
+        /* Center dot for marker */
+        .marker-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: #e90c33;
+            border-radius: 50%;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+     {% include "partials/nav.html" %}
+
+    <!-- Map Hero Section -->
+    <section id="hero">
+        <div id="map-hero"></div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Location Information</h2>
+            
+            <!-- Improved Masonry Layout with Grid -->
+            <div class="masonry-grid">
+                <!-- Card 1 - Valid -->
+                <div class="card" data-lat="51.505" data-lng="-0.09" data-valid="true">
+                    <img src="https://picsum.photos/id/10/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Mountain View</h5>
+                        <p class="card-text">This information has been verified and is correct.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: 2h ago</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 2 - Invalid -->
+                <div class="card" data-lat="51.51" data-lng="-0.1" data-valid="false">
+                    <img src="https://picsum.photos/id/11/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Ocean Point</h5>
+                        <p class="card-text">This information contains errors and needs correction.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-1 icon-red"></i>
+                                <span>Disconnected</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-1-circle-fill icon-red"></i>
+                                <span>Full</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 3 - Valid -->
+                <div class="card" data-lat="51.515" data-lng="-0.08" data-valid="true">
+                    <img src="https://picsum.photos/id/12/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Forest Trail</h5>
+                        <p class="card-text">This information has been verified and is correct.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: 5m ago</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 4 - Valid -->
+                <div class="card" data-lat="51.52" data-lng="-0.095" data-valid="true">
+                    <img src="https://picsum.photos/id/13/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">City Center</h5>
+                        <p class="card-text">This information has been verified and is correct.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: 30m ago</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 5 - Invalid -->
+                <div class="card" data-lat="51.5" data-lng="-0.11" data-valid="false">
+                    <img src="https://picsum.photos/id/14/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Desert Oasis</h5>
+                        <p class="card-text">This information contains errors and needs correction.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-1 icon-red"></i>
+                                <span>Disconnected</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-1-circle-fill icon-red"></i>
+                                <span>Full</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 6 - Valid -->
+                <div class="card" data-lat="51.49" data-lng="-0.09" data-valid="true">
+                    <img src="https://picsum.photos/id/15/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Lakeside View</h5>
+                        <p class="card-text">This information has been verified and is correct.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: 1h ago</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 7 - Invalid -->
+                <div class="card" data-lat="51.495" data-lng="-0.085" data-valid="false">
+                    <img src="https://picsum.photos/id/16/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Historic District</h5>
+                        <p class="card-text">This information contains errors and needs correction.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-1 icon-red"></i>
+                                <span>Disconnected</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-1-circle-fill icon-red"></i>
+                                <span>Full</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 8 - Valid -->
+                <div class="card" data-lat="51.51" data-lng="-0.085" data-valid="true">
+                    <img src="https://picsum.photos/id/17/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Riverside Park</h5>
+                        <p class="card-text">This information has been verified and is correct.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: 15m ago</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 9 - Invalid -->
+                <div class="card" data-lat="51.505" data-lng="-0.105" data-valid="false">
+                    <img src="https://picsum.photos/id/18/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Coastal Highway</h5>
+                        <p class="card-text">This information contains errors and needs correction.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-1 icon-red"></i>
+                                <span>Disconnected</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-1-circle-fill icon-red"></i>
+                                <span>Full</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Card 10 - Valid -->
+                <div class="card" data-lat="51.515" data-lng="-0.095" data-valid="true">
+                    <img src="https://picsum.photos/id/19/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">Mountain Pass</h5>
+                        <p class="card-text">This information has been verified and is correct.</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: 45m ago</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-warning">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container text-center">
+            <p>© 2023 Map Explorer. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Leaflet JS for OpenStreetMap -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // Initialize the map
+        const map = L.map('map-hero').setView([51.505, -0.09], 13);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Create a custom icon using CSS animations instead of SVG
+        const rippleIcon = L.divIcon({
+            html: `
+                <div class="ripple-container">
+                    <div class="ripple-circle"></div>
+                    <div class="ripple-circle-2"></div>
+                    <div class="marker-dot"></div>
+                </div>
+            `,
+            className: 'custom-div-icon',
+            iconSize: [54, 54],
+            iconAnchor: [27, 27], // Center of the icon
+            popupAnchor: [0, -30] // Position the popup above the icon
+        });
+        
+        // Create markers for all locations
+        const markers = {};
+        
+        // Function to add a marker with custom icon
+        function addMarker(lat, lng, title, isValid) {
+            const marker = L.marker([lat, lng], { icon: rippleIcon }).addTo(map)
+                .bindPopup(`
+                    <div style="text-align: center;">
+                        <strong style="font-size: 1.1rem;">${title}</strong><br>
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 10px;">
+                            <span style="color: ${isValid ? '#28a745' : '#dc3545'}; display: flex; align-items: center; gap: 5px; font-size: 1rem;">
+                                <i class="bi ${isValid ? 'bi-reception-4' : 'bi-reception-1'}" style="font-size: 1.2rem;"></i>
+                                ${isValid ? 'Connected' : 'Disconnected'}
+                            </span>
+                            <span style="color: ${isValid ? '#28a745' : '#dc3545'}; display: flex; align-items: center; gap: 5px; font-size: 1rem;">
+                                <i class="bi ${isValid ? 'bi-0-circle-fill' : 'bi-1-circle-fill'}" style="font-size: 1.2rem;"></i>
+                                ${isValid ? 'Free' : 'Full'}
+                            </span>
+                        </div>
+                    </div>
+                `);
+            
+            // Store marker reference with coordinates as key
+            const key = `${lat},${lng}`;
+            markers[key] = marker;
+            
+            return marker;
+        }
+        
+        // Add markers for all cards
+        document.querySelectorAll('.card').forEach(card => {
+            const lat = parseFloat(card.dataset.lat);
+            const lng = parseFloat(card.dataset.lng);
+            const title = card.querySelector('.card-title').textContent;
+            const isValid = card.dataset.valid === "true";
+            
+            addMarker(lat, lng, title, isValid);
+        });
+        
+        // Function to center map on location and open popup
+        function centerMapOn(lat, lng, zoom = 16) {
+            // Smooth animation to the location
+            map.flyTo([lat, lng], zoom, {
+                animate: true,
+                duration: 1.5
+            });
+            
+            // Open the popup for this location
+            const key = `${lat},${lng}`;
+            if (markers[key]) {
+                setTimeout(() => {
+                    markers[key].openPopup();
+                }, 1500); // Open popup after the flyTo animation completes
+            }
+            
+            // Scroll to map if not in view
+            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Add click event listeners to all "See on map" buttons
+        document.querySelectorAll('.map-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.card');
+                const lat = parseFloat(card.dataset.lat);
+                const lng = parseFloat(card.dataset.lng);
+                
+                centerMapOn(lat, lng);
+            });
+        });
+        
+        // Add placeholder functionality for Edit buttons
+        document.querySelectorAll('.btn-warning').forEach(button => {
+            button.addEventListener('click', function() {
+                const card = this.closest('.card');
+                const title = card.querySelector('.card-title').textContent;
+                alert(`Edit functionality for "${title}" would open here.`);
+            });
+        });
+    </script>
+</body>
+</html>
