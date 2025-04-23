@@ -167,10 +167,38 @@
     <!-- Content Section -->
     <section class="py-5">
         <div class="container">
+            <h1>Welcome, {{ user.name }} ({{ user.email }})</h1>
             <h2 class="text-center mb-5">Location Information</h2>
             
             <!-- Improved Masonry Layout with Grid -->
             <div class="masonry-grid">
+                {% for sensor in properties %}
+                <div class="card" data-lat="51.505" data-lng="-0.09" data-valid="true">
+                    <img src="https://picsum.photos/id/10/600/400" class="card-img-top" alt="Location image">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ sensor.sensor_id }}</h5>
+                        <p class="card-text">{{ sensor.sensor_id }}</p>
+                        <div class="status-icons">
+                            <div class="status-icon">
+                                <i class="bi bi-reception-4 icon-green"></i>
+                                <span>Last update: {{ sensor.updated_at }}</span>
+                            </div>
+                            <div class="status-icon">
+                                <i class="bi bi-0-circle-fill icon-green"></i>
+                                <span>Free?: {{ sensor.free }}</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="btn btn-sm btn-primary map-btn">
+                                <i class="bi bi-geo-alt-fill"></i> See on map
+                            </button>
+                            <button class="btn btn-sm btn-danger">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
                 <!-- Card 1 - Valid -->
                 <div class="card" data-lat="51.505" data-lng="-0.09" data-valid="true">
                     <img src="https://picsum.photos/id/10/600/400" class="card-img-top" alt="Location image">

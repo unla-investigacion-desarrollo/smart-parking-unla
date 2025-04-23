@@ -9,7 +9,7 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 
 class SensorData(db.Model):
-    __tablename__ = 'sensors_data_new'
+    __tablename__ = 'sensors_data'
     id = sa.Column(sa.BigInteger, primary_key=True,autoincrement=True)
     sensor_id = sa.Column(sa.String(255),nullable=False,index=True)
     distance = sa.Column(sa.Float,nullable=False)
@@ -17,7 +17,7 @@ class SensorData(db.Model):
     updated_at = sa.Column(TIMESTAMP(timezone=False), nullable=False)
     
 class Sensor(db.Model):
-    __tablename__ = 'sensors_new'
+    __tablename__ = 'sensors'
     id = sa.Column(sa.BigInteger, primary_key=True,autoincrement=True)
     name = sa.Column(sa.String(255),nullable=False,unique=True)
     sensor_id = sa.Column(sa.String(255),nullable=False,index=True,unique=True)

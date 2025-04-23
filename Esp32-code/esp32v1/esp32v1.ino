@@ -21,6 +21,8 @@ const int mqtt_port = MQTT_BROKER_PORT;
 
 const char *sensor_id = SENSOR_ID;
 
+const int time_delay = TIME_DELAY;
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -89,11 +91,13 @@ void loop() {
   char jsonBuffer[256];
   StaticJsonDocument<200> data;
   data["distance"] = distance;
-  data["timestamp"] = timeClient.getEpochTime();
+  data["updated_at"] = timeClient.getEpochTime();
   data["sensor_id"] = sensor_id;
+  data["processed"] = 0;
   serializeJson(data, jsonBuffer);
   //enviamos a MQTT
   client.publish(topic, jsonBuffer);
 
-  delay(5000);
+  delay(time_delay);
 }
+

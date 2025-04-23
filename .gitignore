@@ -4,13 +4,16 @@ app/modules/*/__pycache__/
 app/models/*/__pycache__/
 app/__pycache__/
 
-*adminsdk-fbsvc-a8d214effb.json
+smart-parking-server/.env
 
-# Ignore .env files (environment variables)
+*adminsdk-fbsvc-a8d214effb.json
+*.pem
+smart-parking-server/*adminsdk-fbsvc-a8d214effb.json
+
 .env
 .env.* 
 
-# Ignore log files
+
 *.log
 logs/
 npm-debug.log*
