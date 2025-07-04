@@ -2,7 +2,10 @@ backofficeApp/app/__pycache__/
 Esp32-code/esp32v1/env_local.h
 app/modules/*/__pycache__/
 app/models/*/__pycache__/
+backofficeApp/app/models/*/__pycache__/
+backofficeApp/app/modules/*/__pycache__/
 app/__pycache__/
+backofficeApp/app/models/__pycache__/
 
 smart-parking-server/.env
 
