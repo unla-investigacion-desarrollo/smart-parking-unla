@@ -53,7 +53,7 @@ def register_blueprints(app):
     with app.app_context():
         db.create_all()
         # creamos usuario de prueba
-        #user = User(email="patricio@unla.com")
-        #user.set_password("supersecret")
-        #db.session.add(user)
-        #db.session.commit()
+        user = User(email="patricio@unla.com")
+        user.set_password("supersecret")
+        db.session.add(user)
+        db.session.commit()
