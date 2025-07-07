@@ -21,7 +21,7 @@ export class CronService {
     const getSensors = await this.sensorRepo.find();
     for (const sensorDB of getSensors) {  
       console.log(sensorDB)
-      const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_id: sensorDB.sensor_id },take: 1 }); //TODO: remove take 1 for production
+      const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_id: sensorDB.sensor_uid },take: 1 }); //TODO: remove take 1 for production
       
       for (const row of unprocessed) {
         const free =  row.distance < sensorDB.distance ? 0 : 1;
