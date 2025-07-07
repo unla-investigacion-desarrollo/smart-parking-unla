@@ -13,6 +13,8 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./postgresql.conf:/etc/postgresql/postgresql.conf:ro
       - ./pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
+      - ./pg_certs:/var/lib/postgresql/data/pgdata/ssl
+      - ./certs:/var/lib/postgresql/data/pgdata/certs
     ports:
       - "5432:5432"
     command: ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
