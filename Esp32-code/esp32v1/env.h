@@ -8,11 +8,11 @@ const char *WIFI_SSID = "ArangoWifi6";
 const char *WIFI_PASSWORD = "SanLORENZO$014v2025";
 
 //CONFIGURACION MQTT BROKER
-const char *MQTT_BROKER_HOST = "206.189.237.167";
+const char *MQTT_BROKER_HOST = "129.212.182.8";
 const int MQTT_BROKER_PORT = 1883;
 const char *MQTT_BROKER_TOPIC = "testtopic/sensors";
-const char *MQTT_BROKER_USERNAME = "patricio23";
-const char *MQTT_BROKER_PASSWORD = "entrar123";
+const char *MQTT_BROKER_USERNAME = "myuser";
+const char *MQTT_BROKER_PASSWORD = "mypassword";
 const int TIME_DELAY = 5000;
 
 

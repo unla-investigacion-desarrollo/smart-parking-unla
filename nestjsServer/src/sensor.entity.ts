@@ -9,7 +9,7 @@ export class Sensor {
   name: string;
 
   @Column()
-  sensor_id: string;
+  sensor_uid: string;
 
   @Column({ type: 'decimal'})
   distance: number;
