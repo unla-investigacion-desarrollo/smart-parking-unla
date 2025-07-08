@@ -8,7 +8,7 @@ export class SensorDto {
   name: string;
 
   @IsString()
-  sensor_id: string;
+  sensor_uid: string;
 
   @IsNumber()
   distance: number;

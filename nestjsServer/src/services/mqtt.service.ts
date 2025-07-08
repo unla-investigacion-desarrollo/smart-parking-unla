@@ -14,7 +14,7 @@ export class MqttService {
   async insertSensorData(data: SensorDataDto): Promise<SensorData> {
     const entry = this.sensorDataRepo.create({
         ...data,
-        sensor_id: data.sensor_id,
+        sensor_uid: data.sensor_id,
         distance: parseFloat(data.distance),
         processed: data.processed,
         updated_at: new Date(data.updated_at * 1000),
