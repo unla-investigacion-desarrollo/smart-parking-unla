@@ -21,15 +21,15 @@ export class CronService {
     const getSensors = await this.sensorRepo.find();
     for (const sensorDB of getSensors) {  
       console.log(sensorDB)
-      const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_id: sensorDB.sensor_uid },take: 1 }); //TODO: remove take 1 for production
+      const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_uid: sensorDB.sensor_uid },take: 1 }); //TODO: remove take 1 for production
       
       for (const row of unprocessed) {
         const free =  row.distance < sensorDB.distance ? 0 : 1;
         await this.firebaseService.sendToFirestore(
           'sensors_av',         
-          row.sensor_id, 
+          row.sensor_uid, 
           {
-            sensor_id: row.sensor_id,
+            sensor_id: row.sensor_uid,
             distance: row.distance,
             updated_at: row.updated_at,
             free: free,
