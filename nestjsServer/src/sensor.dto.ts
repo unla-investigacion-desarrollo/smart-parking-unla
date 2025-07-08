@@ -13,9 +13,6 @@ export class SensorDto {
   @IsNumber()
   distance: number;
 
-  @IsNumber()
-  free: number;
-
   @IsDate()
   created_at: Date;
 
