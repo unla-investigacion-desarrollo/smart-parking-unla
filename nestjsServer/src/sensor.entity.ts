@@ -20,9 +20,6 @@ export class Sensor {
   @Column()
   longitude: string;
 
-  @Column()
-  free: number;
-
   @Column({ type: 'timestamp'})
   created_at: Date;
 
