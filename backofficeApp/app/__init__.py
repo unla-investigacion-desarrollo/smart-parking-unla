@@ -2,7 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from dotenv import load_dotenv
 import os,logging
-from app.models import User
+from app.models import User,db
 import firebase_admin 
 from firebase_admin import credentials,firestore
 
@@ -30,6 +30,11 @@ def create_app():
     app.secret_key = os.getenv("SECURITY_SUPERKEY")
     login_manager.init_app(app)
     login_manager.login_view = "login"
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://%s:%s@%s:%s/%s?sslmode=verify-ca&sslrootcert=ca.crt" % (DB_USER,DB_PASSWORD,DB_HOST,DB_PORT,DB_NAME)
+    #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://%s:%s@%s:%s/%s?sslmode=verify-ca&sslrootcert=aiven_db_cert.crt" % (DB_USER,DB_PASSWORD,DB_HOST,DB_PORT,DB_NAME)
+    #app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:123456@localhost:5432/test'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
     register_blueprints(app)
     return app
 
@@ -44,16 +49,12 @@ def register_blueprints(app):
     app.register_blueprint(control_sensor_blueprint)
     app.register_blueprint(process_data_blueprint)
     app.register_blueprint(add_sensor_blueprint)
-    from app.models import db
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://%s:%s@%s:%s/%s?sslmode=verify-ca&sslrootcert=ca.crt" % (DB_USER,DB_PASSWORD,DB_HOST,DB_PORT,DB_NAME)
-    #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://%s:%s@%s:%s/%s?sslmode=verify-ca&sslrootcert=aiven_db_cert.crt" % (DB_USER,DB_PASSWORD,DB_HOST,DB_PORT,DB_NAME)
-    #app.config['SQLALCHEMY_DATABASE_URI']= 'postgresql+psycopg2://postgres:123456@localhost:5432/test'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.init_app(app)
+    
+    
     with app.app_context():
         db.create_all()
         # creamos usuario de prueba
-        user = User(email="patricio@unla.com")
-        user.set_password("supersecret")
-        db.session.add(user)
-        db.session.commit()
+        #user = User(email="patricio@unla.com")
+        #user.set_password("supersecret")
+        #db.session.add(user)
+        #db.session.commit()
