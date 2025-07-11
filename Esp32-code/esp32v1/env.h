@@ -13,6 +13,7 @@ const int MQTT_BROKER_PORT = 1883;
 const char *MQTT_BROKER_TOPIC = "testtopic/sensors";
 const char *MQTT_BROKER_USERNAME = "myuser";
 const char *MQTT_BROKER_PASSWORD = "mypassword";
+//TIEMPO ENTRE MEDICIONES EN MILISEGUNDOS
 const int TIME_DELAY = 5000;
 
 

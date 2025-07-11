@@ -77,7 +77,16 @@ void loop() {
   duration = pulseIn(ECHO_PIN, HIGH);
 
   // Calculate distance in centimeters
-  distance = duration * 0.034 / 2; // Speed of sound: 0.034 cm/us
+    if (duration == 0) {
+      // No echo detected, likely nothing around
+      distance = -1; // Invalid value or set to max range
+  } else {
+      distance = duration * 0.034 / 2;
+      if (distance > 400 || distance < 2) {
+          // Out of sensor range, set as invalid
+          distance = -1;
+      }
+  }
 
   // Print the distance to the serial monitor
   /*Serial.print("Distance: ");

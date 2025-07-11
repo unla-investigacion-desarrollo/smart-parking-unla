@@ -43,6 +43,8 @@ class ParkingSlot(db.Model):
     distance = sa.Column(sa.Float,nullable=False)
     latitude = sa.Column(sa.String(255),nullable=False)
     longitude = sa.Column(sa.String(255),nullable=False)
+    image = sa.Column(sa.String(255),nullable=True)
+    status = sa.Column(sa.String(50),default='libre')  # 'libre', 'ocupado', 'reservado'
     free = sa.Column(sa.Integer,default=0)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)     
