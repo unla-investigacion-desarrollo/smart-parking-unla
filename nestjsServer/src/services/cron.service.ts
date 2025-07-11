@@ -27,7 +27,7 @@ export class CronService {
       let averageDistance = 0;
       let totalDistance = 0;
       // de todos los datos sin procesar, si el promedio de la distancia es menor a la distancia del sensor, se considera ocupado
-      if (unprocessed.length === 0) {
+      if (unprocessed.length > 0) {
         for (const row of unprocessed) {
           totalDistance += row.distance;
           averageDistance = totalDistance / unprocessed.length;
