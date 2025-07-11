@@ -16,28 +16,41 @@ export class CronService {
     private readonly firebaseService: FirebaseService,
   ) {}
 
-  @Cron('0 */3 7-22 * * *') // https://docs.nestjs.com/techniques/task-scheduling
+  @Cron('/3 * 7-22 * * *') // https://docs.nestjs.com/techniques/task-scheduling
   async handleCron() {
     const getSensors = await this.sensorRepo.find();
     for (const sensorDB of getSensors) {  
       console.log(sensorDB)
-      const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_uid: sensorDB.sensor_uid },take: 1 }); //TODO: remove take 1 for production
-      
-      for (const row of unprocessed) {
-        const free =  row.distance < sensorDB.distance ? 0 : 1;
+      const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_uid: sensorDB.sensor_uid },take: 10 }); //TODO: remove take 1 for production
+      let processedFree = 1;
+      let processedStatus = 'libre';
+      let averageDistance = 0;
+      let totalDistance = 0;
+      // de todos los datos sin procesar, si el promedio de la distancia es menor a la distancia del sensor, se considera ocupado
+      if (unprocessed.length === 0) {
+        for (const row of unprocessed) {
+          totalDistance += row.distance;
+          averageDistance = totalDistance / unprocessed.length;
+          if(averageDistance > 0 && averageDistance < sensorDB.distance) {
+            processedFree = 0;
+            processedStatus = 'ocupado';
+          }
+          row.processed = 1;
+          await this.sensorDataRepo.save(row);
+        }
         await this.firebaseService.sendToFirestore(
-          'sensors_av',         
-          row.sensor_uid, 
-          {
-            sensor_id: row.sensor_uid,
-            distance: row.distance,
-            updated_at: row.updated_at,
-            free: free,
-          },
-        );
-
-        row.processed = 1;
-        await this.sensorDataRepo.save(row);
+            'sensors_av',         
+            sensorDB.sensor_uid, 
+            {
+              sensor_id: sensorDB.id,
+              name: sensorDB.name,
+              sensor_uid: sensorDB.sensor_uid,
+              distance: averageDistance,
+              updated_at: new Date(),
+              free: processedFree,
+              status: processedFree,
+            },
+          );
       }
     }
   }
