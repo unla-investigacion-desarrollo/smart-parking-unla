@@ -31,12 +31,12 @@ export class CronService {
         for (const row of unprocessed) {
           totalDistance += row.distance;
           averageDistance = totalDistance / unprocessed.length;
-          if(averageDistance > 0 && averageDistance < sensorDB.distance) {
-            processedFree = 0;
-            processedStatus = 'ocupado';
-          }
           row.processed = 1;
           await this.sensorDataRepo.save(row);
+        }
+        if(averageDistance > 0 && averageDistance < sensorDB.distance) {
+          processedFree = 0;
+          processedStatus = 'ocupado';
         }
         await this.firebaseService.sendToFirestore(
             'sensors_av',         
