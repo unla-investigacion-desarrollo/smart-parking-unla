@@ -48,7 +48,7 @@ export class CronService {
               distance: averageDistance,
               updated_at: new Date(),
               free: processedFree,
-              status: processedFree,
+              status: processedStatus,
             },
           );
       }
