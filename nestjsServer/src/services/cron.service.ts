@@ -69,7 +69,7 @@ export class CronService {
     });
     // Update Firebase
     await this.firebaseService.sendToFirestore(
-      'sensors_av_ps',
+      'sensors_av',
       sensor.sensor_uid,
       JSON.parse(JSON.stringify(updatedParkingSlot)),
     );
