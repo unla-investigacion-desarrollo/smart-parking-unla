@@ -25,8 +25,7 @@ export class CronService {
     for (const sensorDB of getSensors) {  
       //console.log(sensorDB)
       const unprocessed = await this.sensorDataRepo.find({ where: { processed: 0,sensor_uid: sensorDB.sensor_uid },take: 10 }); //TODO: remove take 1 for production
-      let processedFree = 1;
-      let processedStatus = 'libre';
+
       let averageDistance = 0;
       let totalDistance = 0;
       // de todos los datos sin procesar, si el promedio de la distancia es menor a la distancia del sensor, se considera ocupado
