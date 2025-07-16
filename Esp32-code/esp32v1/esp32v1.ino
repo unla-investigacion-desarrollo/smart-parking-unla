@@ -102,10 +102,10 @@ void loop() {
         }
     }
 
-    // Print the distance to the serial monitor
+    /* Print the distance to the serial monitor
     Serial.print("Distance: ");
     Serial.print(distance);
-    Serial.println(" cm");
+    Serial.println(" cm");*/
 
     //armamos el json
     char jsonBuffer[256];

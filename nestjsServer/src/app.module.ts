@@ -11,6 +11,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { ParkingSlot } from './parking-slot.entity';
 
 @Module({
   imports: [
@@ -37,7 +38,7 @@ import * as path from 'path';
           username: config.get<string>('DB_USER'),
           password: config.get<string>('DB_PASS'),
           database: config.get<string>('DB_NAME'),
-          entities: [SensorData,Sensor],
+          entities: [SensorData,Sensor,ParkingSlot],
           synchronize: false, 
           ssl: {
             ca,
