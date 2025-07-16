@@ -4,8 +4,6 @@
 #include <ArduinoJson.h>
 #include "env.h"
 
-#define TRIG_PIN 12 // GPIO 12 for  HC-SR04 TRIGGER PIN
-#define ECHO_PIN 13 // GPIO 13 for HC-SR04 ECHO PIN
 //WIFI 
 const char *ssid = WIFI_SSID; 
 const char *password = WIFI_PASSWORD;  
@@ -16,8 +14,6 @@ const char *topic = MQTT_BROKER_TOPIC;
 const char *mqtt_username = MQTT_BROKER_USERNAME;
 const char *mqtt_password = MQTT_BROKER_PASSWORD;
 const int mqtt_port = MQTT_BROKER_PORT;
-
-const char *sensor_uid = SENSOR_UID;
 
 const int time_delay = TIME_DELAY;
 
@@ -31,7 +27,11 @@ NTPClient timeClient(ntpUDP, "pool.ntp.org", 0, 86400000); // UTC timezone, upda
 void setup() {
   Serial.begin(115200); // inicia consola en 115200 baud rate
   pinMode(TRIG_PIN, OUTPUT); // Set TRIG pin as OUTPUT
-  pinMode(ECHO_PIN, INPUT);  // Set ECHO pin as INPUT
+
+  for (int i = 0; i < NUM_SENSORS; i++) {
+    pinMode(sensors[i].echoPin, INPUT);
+  }
+
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) { //conectando a wifi
       delay(500);
@@ -59,40 +59,40 @@ void loop() {
   float distance;
   
   timeClient.update();
+  for (int i = 0; i < NUM_SENSORS; i++) {
+    
+    digitalWrite(TRIG_PIN, LOW);
+    delayMicroseconds(2); 
+    digitalWrite(TRIG_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIG_PIN, LOW);
+    
+    duration = pulseIn(sensors[i].echoPin, HIGH,30000);
 
-  // Trigger the sensor by sending a HIGH pulse for 10 microseconds
-  digitalWrite(TRIG_PIN, LOW);
-  delayMicroseconds(2); // Ensure trigger pin is LOW before sending a pulse
-  digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
+    // Calculate distance in centimeters
+      if (duration == 0) {
+        // No echo detected, likely nothing around
+        distance = -1; // Invalid value or set to max range
+    } else {
+        distance = duration * 0.034 / 2;
+        if (distance > 400 || distance < 2) {
+            // Out of sensor range, set as invalid
+            distance = -1;
+        }
+    }
 
-  // Measure the duration of the echo pulse
-  duration = pulseIn(ECHO_PIN, HIGH);
-
-  // Calculate distance in centimeters
-    if (duration == 0) {
-      // No echo detected, likely nothing around
-      distance = -1; // Invalid value or set to max range
-  } else {
-      distance = duration * 0.034 / 2;
-      if (distance > 400 || distance < 2) {
-          // Out of sensor range, set as invalid
-          distance = -1;
-      }
+    //armamos el json
+    char jsonBuffer[256];
+    StaticJsonDocument<200> data;
+    data["distance"] = distance;
+    data["updated_at"] = timeClient.getEpochTime();
+    data["sensor_id"] = sensors[i].uid;
+    data["processed"] = 0;
+    serializeJson(data, jsonBuffer);
+    //enviamos a MQTT
+    client.publish(topic, jsonBuffer);
+    delay(50); // delay between readings to avoid echo interference
   }
-
-  //armamos el json
-  char jsonBuffer[256];
-  StaticJsonDocument<200> data;
-  data["distance"] = distance;
-  data["updated_at"] = timeClient.getEpochTime();
-  data["sensor_id"] = sensor_uid;
-  data["processed"] = 0;
-  serializeJson(data, jsonBuffer);
-  //enviamos a MQTT
-  client.publish(topic, jsonBuffer);
-
   delay(time_delay);
 }
 
