@@ -54,10 +54,31 @@ void setup() {
     }
 }
 
+void reconnectMQTT() {
+  while (!client.connected()) {
+    String client_id = "esp32-client-";
+    client_id += String(WiFi.macAddress());
+
+    Serial.println("Intentando reconectar al MQTT broker...");
+    if (client.connect(client_id.c_str(), mqtt_username, mqtt_password)) {
+      Serial.println("Reconectado al MQTT broker");
+    } else {
+      Serial.print("Fallo. Estado: ");
+      Serial.print(client.state());
+      delay(2000);
+    }
+  }
+}
+
 void loop() {
   long duration;
   float distance;
-  
+
+  if (!client.connected()) {
+    reconnectMQTT();
+  }
+
+  client.loop(); // keeps MQTT connection alive
   timeClient.update();
   for (int i = 0; i < NUM_SENSORS; i++) {
     
@@ -67,10 +88,10 @@ void loop() {
     delayMicroseconds(10);
     digitalWrite(TRIG_PIN, LOW);
     
-    duration = pulseIn(sensors[i].echoPin, HIGH,30000);
+    duration = pulseIn(sensors[i].echoPin, HIGH);
 
     // Calculate distance in centimeters
-      if (duration == 0) {
+    if (duration == 0) {
         // No echo detected, likely nothing around
         distance = -1; // Invalid value or set to max range
     } else {
@@ -80,6 +101,11 @@ void loop() {
             distance = -1;
         }
     }
+
+    // Print the distance to the serial monitor
+    Serial.print("Distance: ");
+    Serial.print(distance);
+    Serial.println(" cm");
 
     //armamos el json
     char jsonBuffer[256];
