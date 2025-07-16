@@ -40,9 +40,6 @@ import { ParkingSlot } from './parking-slot.entity';
           database: config.get<string>('DB_NAME'),
           entities: [SensorData,Sensor,ParkingSlot],
           synchronize: false, 
-          ssl: {
-            ca,
-          },
         };
       },
     }),
