@@ -43,7 +43,7 @@ import { ParkingSlot } from './parking-slot.entity';
         };
       },
     }),
-    TypeOrmModule.forFeature([SensorData,Sensor]),
+    TypeOrmModule.forFeature([SensorData,Sensor,ParkingSlot]),
   ],
   controllers: [MqttController],
   providers: [MqttService,FirebaseService,CronService],
