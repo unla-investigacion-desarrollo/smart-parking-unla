@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StyleSheet,View } from 'react-native';
-import { PaperProvider,DefaultTheme } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { DefaultTheme, PaperProvider } from 'react-native-paper';
 import Header from "./components/Header";
 import Home from "./screens/Home";
 
