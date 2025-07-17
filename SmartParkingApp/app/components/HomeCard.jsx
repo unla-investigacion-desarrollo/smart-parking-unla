@@ -12,7 +12,9 @@ export default function MyCardHome({sensor}){
     <Card.Content>
       <Text variant="bodyMedium">{sensor.name}</Text>
       <Text variant="bodyMedium">is free: {sensor.free}</Text>
-      <Text variant="bodyMedium">last updated: {sensor.updated_at.toDate().toLocaleString()}</Text>
+      <Text variant="bodyMedium">status: {sensor.status}</Text>
+      <Text variant="bodyMedium">distance: {parseFloat(sensor.distance).toFixed(2)}</Text>
+      <Text variant="bodyMedium">last updated: {sensor.updated_at}</Text>
     </Card.Content>
     <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
     <Card.Actions>
