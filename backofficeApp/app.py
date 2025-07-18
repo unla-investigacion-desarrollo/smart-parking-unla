@@ -1,5 +1,4 @@
 from app import create_app
-from app.models import SensorData,Sensor
 from flask_login import login_user, logout_user, login_required, current_user
 from flask import request, render_template, redirect
 from app.models import User

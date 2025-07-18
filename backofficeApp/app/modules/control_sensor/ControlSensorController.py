@@ -5,8 +5,7 @@ from flask import redirect, url_for,render_template, request
 from app.models import SensorData,Sensor
 from . import control_sensor_blueprint
 from flask_login import login_required, current_user
-from app import firedb 
-from app import db
+from app import firedb,db 
 
 
 
@@ -87,3 +86,71 @@ def delete_sensor(sensor_id):
         db.session.delete(sensor)
         db.session.commit()
     return redirect(url_for('control_sensor.list_sensors'))
+
+@control_sensor_blueprint.route('/generate-env', methods=['POST'])
+def generate_env():
+    selected_sensor_ids = request.form.getlist('sensor_ids')
+    
+    if len(selected_sensor_ids) > 4 or len(selected_sensor_ids) == 0:
+        return redirect(url_for('control_sensor.list_sensors'))
+    
+    sensors = Sensor.query.filter(Sensor.id.in_(selected_sensor_ids)).all()
+    
+    return render_template('wifi_config.html', sensors=sensors)
+
+@control_sensor_blueprint.route('/generate-config', methods=['GET'])
+def generate_config():
+    selected_sensor_ids = request.args.getlist('sensor_ids[]')
+    
+    if len(selected_sensor_ids) > 4 or len(selected_sensor_ids) == 0:
+        return redirect(url_for('control_sensor.list_sensors'))
+    
+    try:
+        selected_sensor_ids = [int(id) for id in selected_sensor_ids]
+    except ValueError:
+        return redirect(url_for('control_sensor.list_sensors'))
+    
+    # Query the database to get the actual sensor objects
+    selected_sensors = Sensor.query.filter(Sensor.id.in_(selected_sensor_ids)).all()
+
+    # Get WiFi credentials from the form
+    wifi_ssid = request.args.get('wifi_ssid', '')
+    wifi_password = request.args.get('wifi_password', '')
+
+    # Generate the configuration content
+    sensor_uids = [sensor.sensor_uid for sensor in selected_sensors]
+    sensor_config = ""
+    for i, sensor_uid in enumerate(sensor_uids, start=13):
+        sensor_config += f'  {{"{sensor_uid}", {i + 12}}},\n'
+
+    env_content = f'''
+#ifndef CONF_H
+#define CONF_H
+
+#define TRIG_PIN 12
+
+struct Sensor {{
+  const char* uid;
+  int echoPin;
+}}; 
+
+const Sensor sensors[] = {{{sensor_config}}};
+
+const int NUM_SENSORS = sizeof(sensors) / sizeof(sensors[0]);
+
+const char *WIFI_SSID = "{wifi_ssid}";
+const char *WIFI_PASSWORD = "{wifi_password}";
+
+const char *MQTT_BROKER_HOST = "127.0.0.0";
+const int MQTT_BROKER_PORT = 1883;
+const char *MQTT_BROKER_TOPIC = "testtopic/sensors";
+const char *MQTT_BROKER_USERNAME = "myuser";
+const char *MQTT_BROKER_PASSWORD = "mypassword";
+
+const int TIME_DELAY = 30000;
+
+#endif
+'''
+
+    # Return the generated config content to be shown on the screen or allow downloading
+    return render_template('download_config.html', config=env_content)

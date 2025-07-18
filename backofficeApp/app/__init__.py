@@ -46,11 +46,14 @@ def register_blueprints(app):
     from app.modules.control_sensor import control_sensor_blueprint
     from app.modules.process_data import process_data_blueprint
     from app.modules.add_sensor import add_sensor_blueprint
+    from app.modules.parking_slot_group import parking_slot_group_blueprint
+    from app.modules.parking_slot import parking_slot_blueprint
     app.register_blueprint(control_sensor_blueprint)
     app.register_blueprint(process_data_blueprint)
     app.register_blueprint(add_sensor_blueprint)
-    
-    
+    app.register_blueprint(parking_slot_group_blueprint)
+    app.register_blueprint(parking_slot_blueprint)
+
     with app.app_context():
         db.create_all()
         # creamos usuario de prueba

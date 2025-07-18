@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Slots</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include "partials/nav.html" %}
+    <div class="container mt-5">
+        <h1 class="d-flex justify-content-between align-items-center">
+            Parking Slots
+            <a href="{{ url_for('parking_slot.create_parking_slot') }}" class="btn btn-success">Add New Slot</a>
+        </h1>
+
+        {% if slots %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Group</th>
+                    <th>Sensor</th>
+                    <th>Distance</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for slot, parking_slot_group,sensor in slots %}
+                <tr>
+                    <td>{{ slot.id }}</td>
+                    <td>{{ slot.name }}</td>
+                    <td>{{ parking_slot_group.name }}</td>
+                    <td>{{ sensor.name }}</td>
+                    <td>{{ slot.distance }}</td>
+                    <td>{{ slot.status }}</td>
+                    <td>
+                        <a href="{{ url_for('parking_slot.edit_parking_slot', id=slot.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{{ url_for('parking_slot.delete_parking_slot', id=slot.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this slot?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No parking slots found.</p>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

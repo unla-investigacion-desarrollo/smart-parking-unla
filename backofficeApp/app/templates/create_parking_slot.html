@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Parking Slot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include "partials/nav.html" %}
+    <div class="container mt-5">
+        <h1>Create Parking Slot</h1>
+        <form action="{{ url_for('parking_slot.create_parking_slot') }}" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Parking Slot Name</label>
+                <input type="text" class="form-control" name="name" id="name" required placeholder="Enter Parking Slot Name">
+            </div>
+
+            <div class="mb-3">
+                <label for="sensor_id" class="form-label">Sensor</label>
+                <select name="sensor_id" class="form-select" required>
+                    <option value="">Select Sensor</option>
+                    {% for sensor in sensors %}
+                        <option value="{{ sensor.id }}">{{ sensor.name }} ID: {{ sensor.id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="parking_slot_group_id" class="form-label">Parking Slot Group</label>
+                <select name="parking_slot_group_id" class="form-select" required>
+                    <option value="">Select Parking Slot Group</option>
+                    {% for group in parking_slot_groups %}
+                        <option value="{{ group.id }}">{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="distance" class="form-label">Distance</label>
+                <input type="number" class="form-control" name="distance" id="distance" required placeholder="Enter Distance">
+            </div>
+
+            <div class="mb-3">
+                <label for="latitude" class="form-label">Latitude</label>
+                <input type="text" class="form-control" name="latitude" id="latitude" required placeholder="Enter Latitude">
+            </div>
+
+            <div class="mb-3">
+                <label for="longitude" class="form-label">Longitude</label>
+                <input type="text" class="form-control" name="longitude" id="longitude" required placeholder="Enter Longitude">
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL (Optional)</label>
+                <input type="text" class="form-control" name="image" id="image" placeholder="Enter Image URL">
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="libre" selected>Libre</option>
+                    <option value="ocupado">Ocupado</option>
+                    <option value="reservado">Reservado</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Parking Slot</button>
+            <a href="{{ url_for('parking_slot.list_parking_slots') }}" class="btn btn-secondary ms-2">Back to List</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

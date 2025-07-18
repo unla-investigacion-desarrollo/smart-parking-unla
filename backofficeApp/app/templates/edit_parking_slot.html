@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Parking Slot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    {% include "partials/nav.html" %}
+    <div class="container mt-5">
+        <h1>Edit Parking Slot</h1>
+        <form action="{{ url_for('parking_slot.edit_parking_slot', id=slot.id) }}" method="POST">
+            <div class="mb-3">
+                <label for="name" class="form-label">Parking Slot Name</label>
+                <input type="text" class="form-control" name="name" id="name" value="{{ slot.name }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="sensor_id" class="form-label">Sensor</label>
+                <select name="sensor_id" class="form-select" required>
+                    {% for sensor in sensors %}
+                        <option value="{{ sensor.id }}" {% if sensor.id == slot.sensor_id %} selected {% endif %}>{{ sensor.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="parking_slot_group_id" class="form-label">Parking Slot Group</label>
+                <select name="parking_slot_group_id" class="form-select" required>
+                    {% for group in parking_slot_groups %}
+                        <option value="{{ group.id }}" {% if group.id == slot.parking_slot_group_id %} selected {% endif %}>{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="distance" class="form-label">Distance</label>
+                <input type="number" class="form-control" name="distance" id="distance" value="{{ slot.distance }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="latitude" class="form-label">Latitude</label>
+                <input type="text" class="form-control" name="latitude" id="latitude" value="{{ slot.latitude }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="longitude" class="form-label">Longitude</label>
+                <input type="text" class="form-control" name="longitude" id="longitude" value="{{ slot.longitude }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image URL (Optional)</label>
+                <input type="text" class="form-control" name="image" id="image" value="{{ slot.image }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    <option value="libre" {% if slot.status == 'libre' %} selected {% endif %}>Libre</option>
+                    <option value="ocupado" {% if slot.status == 'ocupado' %} selected {% endif %}>Ocupado</option>
+                    <option value="reservado" {% if slot.status == 'reservado' %} selected {% endif %}>Reservado</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Parking Slot</button>
+            <a href="{{ url_for('parking_slot.list_parking_slots') }}" class="btn btn-secondary ms-2">Back to List</a>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
