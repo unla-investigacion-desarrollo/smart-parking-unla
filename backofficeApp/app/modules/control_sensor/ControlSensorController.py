@@ -120,7 +120,7 @@ def generate_config():
     # Generate the configuration content
     sensor_uids = [sensor.sensor_uid for sensor in selected_sensors]
     sensor_config = ""
-    for i, sensor_uid in enumerate(sensor_uids, start=13):
+    for i, sensor_uid in enumerate(sensor_uids, start=12):
         sensor_config += f'  {{"{sensor_uid}", {i + 1}}},\n'
 
     env_content = f'''
