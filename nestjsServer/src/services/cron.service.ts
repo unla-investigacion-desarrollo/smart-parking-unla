@@ -19,8 +19,8 @@ export class CronService {
     private readonly firebaseService: FirebaseService,
   ) {}
 
-  @Cron('* */3 * 7-22 * *') // https://docs.nestjs.com/techniques/task-scheduling
-  async handleCron() {
+  @Cron('* */3 7-22 * * *') // https://docs.nestjs.com/techniques/task-scheduling
+  async newHandleCron() {
     const getSensors = await this.sensorRepo.find();
     for (const sensorDB of getSensors) {  
       //console.log(sensorDB)

@@ -39,7 +39,7 @@ class ParkingSlot(db.Model):
     id = sa.Column(sa.BigInteger, primary_key=True,autoincrement=True)
     name = sa.Column(sa.String(255),nullable=False,unique=True)
     sensor_id = sa.Column(sa.BigInteger,nullable=False,index=True,unique=True)
-    parking_slot_group_id = sa.Column(sa.BigInteger,nullable=False,index=True,unique=True)
+    parking_slot_group_id = sa.Column(sa.BigInteger,nullable=False,index=True,unique=False)
     distance = sa.Column(sa.Float,nullable=False)
     latitude = sa.Column(sa.String(255),nullable=False)
     longitude = sa.Column(sa.String(255),nullable=False)
