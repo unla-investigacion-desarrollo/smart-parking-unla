@@ -81,3 +81,7 @@ secrets.yaml
 .env.production
 .env.staging
 .env.local
+
+SmartParkingMobileApp/android/
+SmartParkingMobileApp/ios/
+

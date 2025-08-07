@@ -23,7 +23,7 @@ def create_parking_slot():
         status = request.form.get('status', 'libre')  # default to 'libre'
 
         if not name or not sensor_id or not parking_slot_group_id or not distance or not latitude or not longitude:
-            return redirect(url_for('create_parking_slot'))
+            return redirect(url_for('parking_slot.create_parking_slot'))
 
         sensor = Sensor.query.get(sensor_id)
         parking_slot_group = ParkingSlotGroup.query.get(parking_slot_group_id)
@@ -44,7 +44,7 @@ def create_parking_slot():
         db.session.add(new_slot)
         db.session.commit()
 
-        return redirect(url_for('list_parking_slots'))
+        return redirect(url_for('parking_slot.list_parking_slots'))
 
     return render_template('create_parking_slot.html', sensors=sensors, parking_slot_groups=parking_slot_groups)
 
@@ -67,7 +67,7 @@ def edit_parking_slot(id):
     parking_slot_groups = ParkingSlotGroup.query.all()
 
     if not slot:
-        return redirect(url_for('list_parking_slots'))
+        return redirect(url_for('parking_slot.list_parking_slots'))
 
     if request.method == 'POST':
         slot.name = request.form['name']

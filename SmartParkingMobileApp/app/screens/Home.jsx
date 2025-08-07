@@ -1,8 +1,8 @@
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React from 'react';
-import {ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { db } from '../../firebaseConfig';
 import HomeCard from "../components/HomeCard";
-import { collection,onSnapshot,query,orderBy } from "firebase/firestore";
 
 const Home = () => {
     const [sensors, setSensors] = React.useState([]);
@@ -17,18 +17,16 @@ const Home = () => {
 					))
 				)
 		});
-
 		return unsuscribe;
 	},[]);
     
 	return(
-        <ScrollView>
-
+	<SafeAreaView>
+        <ScrollView contentContainerStyle={{ paddingBottom: 300 }} >
         {sensors.map((sensor,idx) => ( <HomeCard key={"homeCard"+idx} sensor={sensor}/> ))}
         </ScrollView>
-		
+	</SafeAreaView>
 );
-
 }
 
 export default Home;
