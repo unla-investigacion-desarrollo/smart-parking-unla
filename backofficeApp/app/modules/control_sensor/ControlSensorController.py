@@ -1,12 +1,13 @@
+from venv import logger
 from . import control_sensor_blueprint
 import random
 import string
 from flask import redirect, url_for,render_template, request
-from app.models import SensorData,Sensor
+from app.models import SensorData,Sensor,ParkingSlot
 from . import control_sensor_blueprint
 from flask_login import login_required, current_user
 from app import firedb,db 
-
+from datetime import datetime,timedelta
 
 
 @control_sensor_blueprint.route('/')
@@ -20,18 +21,27 @@ def index():
         property_data['id'] = doc.id  
         properties.append(property_data)
 
+    logger.info(properties)
     return render_template("home.html", properties=properties,user=current_user)
 
 @control_sensor_blueprint.route('/sensors_data')
 @login_required
 def sensor_data():
     page = request.args.get('page', 1, type=int)
-    per_page = 20  # Items per page
+    per_page = 50  # Items per page
     pagination = SensorData.query.order_by(SensorData.updated_at.desc()).paginate(page=page, per_page=per_page, error_out=False)
+    processed_data = []
+    for row in pagination.items:
+        sensor = Sensor.query.filter_by(sensor_uid=row.sensor_uid).first()
+        row.parking_slot = ParkingSlot.query.filter_by(sensor_id=sensor.id).first()
+        #datetime_object = datetime.strptime(row.updated_at, '%y/%md/%d %H:%M:%S')
+        locale_hour = row.updated_at - timedelta(hours=3)
+        row.updated_at = locale_hour
+        processed_data.append(row)
 
     return render_template(
         'sensor_data.html',
-        sensor_data=pagination.items,
+        sensor_data=processed_data,
         pagination=pagination,
         user=current_user,
     )
