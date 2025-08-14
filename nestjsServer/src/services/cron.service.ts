@@ -19,8 +19,15 @@ export class CronService {
     private readonly firebaseService: FirebaseService,
   ) {}
 
-  @Cron('* */3 7-22 * * *') // https://docs.nestjs.com/techniques/task-scheduling
+  @Cron('* */3 * * * *') // https://docs.nestjs.com/techniques/task-scheduling
   async newHandleCron() {
+    const now = new Date();
+    const hour = now.getHours();
+    const excludedHours = [3, 4, 5, 6, 7, 8, 9]; // UTC TIME
+    if (excludedHours.includes(hour)) {
+      console.log(`Skipping cron at ${hour}:00`);
+      return; // Stops execution of this cron run
+    }
     const getSensors = await this.sensorRepo.find();
     for (const sensorDB of getSensors) {  
       //console.log(sensorDB)

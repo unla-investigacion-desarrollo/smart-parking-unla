@@ -7,7 +7,7 @@ from app.models import SensorData,Sensor,ParkingSlot
 from . import control_sensor_blueprint
 from flask_login import login_required, current_user
 from app import firedb,db 
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,timezone
 
 
 @control_sensor_blueprint.route('/')
@@ -17,11 +17,19 @@ def index():
     docs = sensors_av.stream()
     properties = []
     for doc in docs:
-        property_data = doc.to_dict()
-        property_data['id'] = doc.id  
-        properties.append(property_data)
+        sensor_data = doc.to_dict()
+        sensor_data['disconnected'] = False
+        now = datetime.now(timezone.utc)
+        iso_string = sensor_data['updated_at']
+        excluded_hours = [3, 4, 5, 6, 7, 8, 9] 
+        py_date = datetime.fromisoformat(iso_string.replace("Z", "+00:00"))
+        if (now - py_date > timedelta(hours=1)) and (now.hour not in excluded_hours):
+            sensor_data['disconnected'] = True
+        
+        sensor_data['updated_at'] = py_date.strftime('%Y-%m-%d %H:%M:%S')
+        sensor_data['id'] = doc.id
+        properties.append(sensor_data)
 
-    logger.info(properties)
     return render_template("home.html", properties=properties,user=current_user)
 
 @control_sensor_blueprint.route('/sensors_data')

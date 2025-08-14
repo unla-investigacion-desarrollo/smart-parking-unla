@@ -169,7 +169,7 @@
             <h2 class="text-center mb-5">Información de los lugares de Estacionamiento</h2>
             <div class="masonry-grid">
                 {% for sensor in properties %}
-                <div class="card realcard" data-lat="{{ sensor.latitude }}" data-lng="{{ sensor.longitude }}" data-valid="{% if sensor.free %}true{% else %}false{% endif %}">
+                <div class="card realcard" data-lat="{{ sensor.latitude }}" data-lng="{{ sensor.longitude }}" data-valid="{% if sensor.free %}true{% else %}false{% endif %}" data-disconnected="{% if sensor.disconnected %}true{% else %}false{% endif %}">
                     <img src="https://picsum.photos/id/10/600/400" class="card-img-top" alt="Location image">
                     <div class="card-body">
                         <h5 class="card-title">{{ sensor.name }}</h5>
@@ -178,7 +178,11 @@
                          <p class="card-text">Distancia: {{ sensor.distance }}</p>
                         <div class="status-icons">
                             <div class="status-icon">
-                                <i class="bi bi-reception-4 icon-green"></i>
+                                {% if sensor.disconnected %}
+                                    <i class="bi bi-reception-4 icon-green"></i>
+                                {% else %}
+                                    <i class="bi bi-reception-4 icon-red"></i>
+                                {% endif %}
                                 <span>Last update: {{ sensor.updated_at }}</span>
                             </div>
                             <div class="status-icon">
@@ -302,7 +306,7 @@
         const markers = {};
         
         // Function to add a marker with custom icon
-        function addMarker(lat, lng, title, isValid) {
+        function addMarker(lat, lng, title, isValid,disconnected) {
             const marker = L.marker([lat, lng], { icon: rippleIcon }).addTo(map)
                 .bindPopup(`
                     <div style="text-align: center;">
@@ -310,9 +314,9 @@
                         <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 10px;">
                             <span style="color: ${isValid ? '#28a745' : '#dc3545'}; display: flex; align-items: center; gap: 5px; font-size: 1rem;">
                                 <i class="bi ${isValid ? 'bi-reception-4' : 'bi-reception-1'}" style="font-size: 1.2rem;"></i>
-                                ${isValid ? 'Connected' : 'Disconnected'}
+                                ${disconnected ? 'Disconnected' : 'Connected'}
                             </span>
-                            <span style="color: ${isValid ? '#28a745' : '#dc3545'}; display: flex; align-items: center; gap: 5px; font-size: 1rem;">
+                            <span style="color: ${disconnected ? '#dc3545' : '#28a745'}; display: flex; align-items: center; gap: 5px; font-size: 1rem;">
                                 <i class="bi ${isValid ? 'bi-0-circle-fill' : 'bi-1-circle-fill'}" style="font-size: 1.2rem;"></i>
                                 ${isValid ? 'Free' : 'Full'}
                             </span>
@@ -333,8 +337,8 @@
             const lng = parseFloat(card.dataset.lng);
             const title = card.querySelector('.card-title').textContent;
             const isValid = card.dataset.valid === "true";
-            
-            addMarker(lat, lng, title, isValid);
+            const disconnected = card.dataset.disconnected === "true";
+            addMarker(lat, lng, title, isValid,disconnected);
         });
         
         // Function to center map on location and open popup
