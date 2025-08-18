@@ -16,8 +16,9 @@ def index():
     sensors_av = firedb.collection('sensors_av')
     docs = sensors_av.stream()
     properties = []
-    for doc in docs:
+    for index,doc in enumerate(docs):
         sensor_data = doc.to_dict()
+        sensor_data['imagen'] = '/static/images/est' + str(index) + '.png'
         sensor_data['disconnected'] = False
         now = datetime.now(timezone.utc)
         iso_string = sensor_data['updated_at']
