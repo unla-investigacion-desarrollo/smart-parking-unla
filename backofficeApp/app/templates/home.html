@@ -278,16 +278,13 @@
     <!-- Leaflet JS for OpenStreetMap -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
-        // Initialize the map
         const map = L.map('map-hero').setView([-34.734277, -58.390483], 19);
         
-        // Add OpenStreetMap tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
         
-        // Create a custom icon using CSS animations instead of SVG
         const rippleIcon = L.divIcon({
             html: `
                 <div class="ripple-container">
@@ -298,11 +295,10 @@
             `,
             className: 'custom-div-icon',
             iconSize: [54, 54],
-            iconAnchor: [27, 27], // Center of the icon
-            popupAnchor: [0, -30] // Position the popup above the icon
+            iconAnchor: [27, 27], 
+            popupAnchor: [0, -30] 
         });
         
-        // Create markers for all locations
         const markers = {};
         
         // Function to add a marker with custom icon
@@ -342,7 +338,7 @@
         });
         
         // Function to center map on location and open popup
-        function centerMapOn(lat, lng, zoom = 16) {
+        function centerMapOn(lat, lng, zoom = 19) {
             // Smooth animation to the location
             map.flyTo([lat, lng], zoom, {
                 animate: true,
