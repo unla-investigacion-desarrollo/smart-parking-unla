@@ -170,7 +170,7 @@
             <div class="masonry-grid">
                 {% for sensor in properties %}
                 <div class="card realcard" data-lat="{{ sensor.latitude }}" data-lng="{{ sensor.longitude }}" data-valid="{% if sensor.free %}true{% else %}false{% endif %}" data-disconnected="{% if sensor.disconnected %}true{% else %}false{% endif %}">
-                    <img src="{{ url_for('static', filename='images/est' ~ sensor.index ~ '.png') }}" class="card-img-top" alt="Location image">
+                    <img src="{{ url_for('static', filename='images/est' ~ sensor['index'] ~ '.png') }}" class="card-img-top" alt="Location image">
                     <div class="card-body">
                         <h5 class="card-title">{{ sensor.name }}</h5>
                         <p class="card-text">Sensor UID: {{ sensor.id}}</p>
