@@ -179,9 +179,9 @@
                         <div class="status-icons">
                             <div class="status-icon">
                                 {% if sensor.disconnected %}
-                                    <i class="bi bi-reception-1 icon-green"></i>
+                                    <i class="bi bi-reception-1 icon-red"></i>
                                 {% else %}
-                                    <i class="bi bi-reception-4 icon-red"></i>
+                                    <i class="bi bi-reception-4 icon-green"></i>
                                 {% endif %}
                                 <span>Last update: {{ sensor.updated_at }}</span>
                             </div>
