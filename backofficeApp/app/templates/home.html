@@ -169,7 +169,7 @@
             <h2 class="text-center mb-5">Información de los lugares de Estacionamiento</h2>
             <div class="masonry-grid">
                 {% for sensor in properties %}
-                <div class="card realcard" data-lat="{{ sensor.latitude }}" data-lng="{{ sensor.longitude }}" data-valid="{% if sensor.free %}true{% else %}false{% endif %}" data-disconnected="{% if sensor.disconnected %}true{% else %}false{% endif %}">
+                <div class="card realcard" data-lat="{{ sensor.latitude }}" data-lng="{{ sensor.longitude }}" data-valid="{% if sensor.free %}false{% else %}true{% endif %}" data-disconnected="{% if sensor.disconnected %}true{% else %}false{% endif %}">
                     <img src="{{ sensor.imagen }}" class="card-img-top" alt="Location image">
                     <div class="card-body">
                         <h5 class="card-title">{{ sensor.name }}</h5>
