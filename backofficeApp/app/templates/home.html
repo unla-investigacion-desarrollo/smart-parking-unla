@@ -168,9 +168,9 @@
             <h1>Bienvenido, {{ user.email }}</h1>
             <h2 class="text-center mb-5">Información de los lugares de Estacionamiento</h2>
             <div class="masonry-grid">
-                {% for index,sensor in enumarate(properties) %}
+                {% for sensor in properties %}
                 <div class="card realcard" data-lat="{{ sensor.latitude }}" data-lng="{{ sensor.longitude }}" data-valid="{% if sensor.free %}true{% else %}false{% endif %}" data-disconnected="{% if sensor.disconnected %}true{% else %}false{% endif %}">
-                    <img src="/est{{ index + 1}}.png" class="card-img-top" alt="Location image">
+                    <img src="/est{{ sensor.index }}.png" class="card-img-top" alt="Location image">
                     <div class="card-body">
                         <h5 class="card-title">{{ sensor.name }}</h5>
                         <p class="card-text">Sensor UID: {{ sensor.id}}</p>
