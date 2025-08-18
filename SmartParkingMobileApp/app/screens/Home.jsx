@@ -23,7 +23,7 @@ const Home = () => {
 	return(
 	<SafeAreaView>
         <ScrollView contentContainerStyle={{ paddingBottom: 300 }} >
-        {sensors.map((sensor,idx) => ( <HomeCard key={"homeCard"+idx} sensor={sensor}/> ))}
+        {sensors.map((sensor,idx) => ( <HomeCard key={"homeCard"+idx} sensor={sensor} index={idx} /> ))}
         </ScrollView>
 	</SafeAreaView>
 );
