@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { Pressable, StyleSheet } from 'react-native';
 import { Avatar, Card, Icon, Text } from 'react-native-paper';
 
 const IconoLibre = props => <Avatar.Icon {...props} icon="map-marker" color='#00e676' backgroundColor='transparent' size="60"/>
@@ -20,9 +20,10 @@ const RedFlag = () => (
   />
 );
 
-export default function MyCardHome({sensor,index}){
+export default function MyCardHome({sensor,index,onPress}){
 
   return(
+    <Pressable onPress={onPress}>
     <Card key={sensor.id} style={styles.container}>
     <Card.Title title={"Slot id " + sensor.id + " Name " + sensor.name } subtitle={" Slot Group " + sensor.parking_slot_group_id} left={sensor.free ? IconoLibre : IconoOcupado} />
     <Card.Cover source={{ uri: 'http://129.212.182.8:5005/static/images/est'+ index +'.png' }} />
@@ -39,6 +40,7 @@ export default function MyCardHome({sensor,index}){
       <Button>Ok</Button>
     </Card.Actions>*/}
   </Card>
+  </Pressable>
 )};
 
 const styles = StyleSheet.create({

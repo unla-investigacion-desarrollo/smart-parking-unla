@@ -11,7 +11,6 @@
     <!-- Leaflet CSS for OpenStreetMap -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <style>
-        /* Custom styles */
         #map-hero {
             height: 500px;
             width: 100%;
@@ -21,20 +20,19 @@
             margin-bottom: 20px;
             transition: transform 0.3s;
             position: relative;
-            padding-bottom: 40px; /* Space for the buttons */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Added shadow */
+            padding-bottom: 40px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); 
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
         }
-        
-        /* Status icons styling - changed to vertical layout */
+
         .status-icons {
             display: flex;
-            flex-direction: column; /* Changed to column layout */
-            gap: 12px; /* Increased gap between rows */
+            flex-direction: column; 
+            gap: 12px; 
             margin-top: 15px;
         }
         
@@ -42,11 +40,11 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1rem; /* Increased font size */
+            font-size: 1rem; 
         }
         
         .status-icon i {
-            font-size: 1.2rem; /* Slightly larger icons */
+            font-size: 1.2rem; 
         }
         
         .icon-green {
@@ -56,8 +54,7 @@
         .icon-red {
             color: #dc3545;
         }
-        
-        /* Better masonry layout with more even distribution */
+    
         .masonry-grid {
             display: grid;
             grid-template-columns: repeat(1, 1fr);
@@ -76,7 +73,6 @@
             }
         }
         
-        /* Card action buttons styling */
         .card-actions {
             position: absolute;
             bottom: 10px;
@@ -84,13 +80,11 @@
             display: flex;
             gap: 8px;
         }
-        
-        /* Smooth scroll to map */
+
         html {
             scroll-behavior: smooth;
         }
-        
-        /* Custom marker styling */
+
         .custom-div-icon {
             background: none;
             border: none;
@@ -141,8 +135,7 @@
                 opacity: 0;
             }
         }
-        
-        /* Center dot for marker */
+
         .marker-dot {
             position: absolute;
             top: 50%;
