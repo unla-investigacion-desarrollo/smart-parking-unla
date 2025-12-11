@@ -1,0 +1,50 @@
+# Go (Golang) Binaries and Build Artifacts
+# ----------------------------------------
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Code coverage profiles and other test artifacts
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Dependency directories (often deprecated by Go Modules, but good practice if used)
+vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# Environment files
+.env
+.idea/.env.*
+
+# IntelliJ IDEA / GoLand IDE specific files and folders
+# ----------------------------------------------------
+.idea/
+# The .idea folder is generally ignored, but you can choose to share some configuration
+# files (like run configurations) with your team if everyone uses the same IDE.
+# If you commit the .idea folder, add a .gitignore inside it instead to ignore
+# only local/sensitive files. The common practice is to ignore the whole folder.
+
+# IntelliJ project files
+*.iml
+*.ipr
+*.iws
+
+# Compilation outputs
+/out/
+
+# Other miscellaneous files
+# -------------------------
+# OS-specific files (e.g., macOS, Windows)
+.DS_Store
+Thumbs.db
