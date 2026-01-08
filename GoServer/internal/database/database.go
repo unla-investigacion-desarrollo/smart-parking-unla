@@ -19,10 +19,11 @@ func Connect() {
 	user := os.Getenv("DB_USER")
 	pass := os.Getenv("DB_PASSWORD")
 	name := os.Getenv("DB_NAME")
+	sslRootCert := os.Getenv("DB_SSL_ROOT_CERT") // e.g. /certs/ca.pem
 
 	dsn := fmt.Sprintf(
-		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=UTC",
-		host, port, user, pass, name,
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=verify-ca sslrootcert=%s TimeZone=UTC",
+		host, port, user, pass, name, sslRootCert,
 	)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
@@ -42,5 +43,5 @@ func Connect() {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	DB = db
-	log.Println("Connected to PostgreSQL (local, no SSL)")
+	log.Println("Connected to PostgreSQL with SSL (verify-ca)")
 }

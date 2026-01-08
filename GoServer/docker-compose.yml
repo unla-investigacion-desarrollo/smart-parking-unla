@@ -1,15 +1,13 @@
 services:
-  smartparkin-go-server:
+  smartparkin-go:
     build:
       context: .
       dockerfile: Dockerfile
-      target: dev
-    restart: on-failure
-    volumes:
-      - ./:/app
-    working_dir: /app
+      target: prod
     ports:
       - "8090:8090"
+    env_file: .env
+    restart: unless-stopped
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
