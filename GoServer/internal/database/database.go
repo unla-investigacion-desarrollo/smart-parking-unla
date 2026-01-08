@@ -37,11 +37,10 @@ func Connect() {
 		log.Fatalf("failed to get database instance: %v", err)
 	}
 
-	// Connection pool settings (important for production)
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(50)
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	DB = db
-	log.Println("Connected to PostgreSQL")
+	log.Println("Connected to PostgreSQL (local, no SSL)")
 }

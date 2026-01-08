@@ -16,21 +16,8 @@ FROM base AS dev
 RUN go install github.com/air-verse/air@v1.52.3
 ENV PATH=$PATH:/go/bin
 COPY . .
+RUN go mod tidy
+RUN go mod download && go mod verify
+
 EXPOSE 8090
 CMD ["air", "-c", ".air.toml"]
-
-# ----------------------------------------------------
-# Prod build
-# ----------------------------------------------------
-FROM base AS builder
-COPY . .
-RUN go build -o app .
-
-# ----------------------------------------------------
-# Prod runtime
-# ----------------------------------------------------
-FROM alpine:3.20 AS prod
-WORKDIR /app
-COPY --from=builder /app/app .
-EXPOSE 8090
-CMD ["./app"]

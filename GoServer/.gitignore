@@ -48,3 +48,5 @@ go.work.sum
 # OS-specific files (e.g., macOS, Windows)
 .DS_Store
 Thumbs.db
+
+*.cert
