@@ -3,6 +3,8 @@ services:
     image: smartparkin:1.0.0
     container_name: smartparkin-api
     restart: unless-stopped
+    volumes:
+      - ./certs:/certs:ro
     ports:
       - "8090:8090"
     environment:
