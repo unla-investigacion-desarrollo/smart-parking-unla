@@ -1,19 +1,17 @@
 services:
   smartparkin-go:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: prod
+    image: smartparkin:1.0.0
+    container_name: smartparkin-api
+    restart: unless-stopped
     ports:
       - "8090:8090"
-    env_file: .env
-    restart: unless-stopped
     environment:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASSWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
       DB_NAME: ${DB_NAME}
+      DB_SSL_ROOT_CERT: ${DB_SSL_ROOT_CERT}
       MQTT_HOST: ${MQTT_HOST}
       MQTT_PORT: ${MQTT_PORT}
       MQTT_USERNAME: ${MQTT_USERNAME}
