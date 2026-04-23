@@ -1,3 +1,6 @@
+## Funcionamiento
+El funcionamiento es el siguiente: desarrollamos de forma local y luego hacemos el build. Ese build subimos a prod.
+
 ### development mode
 docker compose -f docker-compose.local.yml up --build
 

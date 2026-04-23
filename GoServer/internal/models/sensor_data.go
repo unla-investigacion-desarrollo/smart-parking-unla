@@ -14,6 +14,7 @@ func (SensorData) TableName() string {
 	return "sensors_data"
 }
 
+// formato de la data que viene de la placa
 type SensorDataMessage struct {
 	Distance  float64 `json:"distance"`
 	UpdatedAt int64   `json:"updated_at"`
