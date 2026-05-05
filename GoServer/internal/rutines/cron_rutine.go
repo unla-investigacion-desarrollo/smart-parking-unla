@@ -11,7 +11,8 @@ import (
 )
 
 func StartCron(ctx context.Context) {
-	ticker := time.NewTicker(1 * time.Minute)
+	log.Println("cron init")
+	ticker := time.NewTicker(30 * time.Second)
 	defer ticker.Stop()
 
 	for {
@@ -84,7 +85,7 @@ func processParkingSlot(sensor models.Sensor, averageDistance float64) {
 	fmt.Println("processParkingSlot")
 	free := 1
 	status := "libre"
-	if averageDistance > 0 && sensor.Distance > averageDistance {
+	if averageDistance > 0 && sensor.Distance >= averageDistance {
 		free = 0
 		status = "ocupado"
 	}

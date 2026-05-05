@@ -11,9 +11,9 @@ docker build --target prod -t smartparkin:1.0.0 .
 #### chequeamos que este bien el build
 docker images | grep smartparkin
 #### exportamos la imagen como un archivo
-docker save smartparkin:1.0.0 | gzip > smartparkin-1.0.0.tar.gz
+docker save smartparkin:1.0.0 | gzip > builds/smartparkin-1.0.0.tar.gz
 #### upload file to prod
-scp smartparkin-1.0.0.tar.gz user@PROD_SERVER:/var/www/smart-parking-unla/GoServer/smartparkin/builds
+scp smartparkin-1.0.0.tar.gz user@PROD_SERVER:/var/www/smart-parking-unla/GoServer/builds
 
 #### load imagen on prod
 cd /var/www/smart-parking-unla/GoServer/builds

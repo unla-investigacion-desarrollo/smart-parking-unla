@@ -23,11 +23,13 @@ def index():
         now = datetime.now(timezone.utc)
         iso_string = sensor_data['updated_at']
         excluded_hours = [3, 4, 5, 6, 7, 8, 9] 
+        """
         py_date = datetime.fromisoformat(iso_string.replace("Z", "+00:00"))
         if (now - py_date > timedelta(hours=1)) and (now.hour not in excluded_hours):
             sensor_data['disconnected'] = True
         
         sensor_data['updated_at'] = py_date.strftime('%Y-%m-%d %H:%M:%S')
+        """
         sensor_data['id'] = doc.id
         properties.append(sensor_data)
 

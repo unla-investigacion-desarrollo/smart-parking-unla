@@ -14,7 +14,8 @@ class SensorData(db.Model):
     sensor_uid = sa.Column(sa.String(255),nullable=False,index=True)
     distance = sa.Column(sa.Float,nullable=False)
     processed = sa.Column(sa.Integer,default=0)
-    updated_at = sa.Column(TIMESTAMP(timezone=False), nullable=False)
+    created_at = sa.Column(DateTime, nullable=False)
+    updated_at = sa.Column(DateTime, nullable=False)
     
 class Sensor(db.Model):
     __tablename__ = 'sensors'
