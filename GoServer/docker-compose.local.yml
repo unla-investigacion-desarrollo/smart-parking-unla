@@ -1,0 +1,27 @@
+services:
+  smartparkin-go-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    restart: on-failure
+    volumes:
+      - ./:/app
+      - ./certs:/certs:ro
+    working_dir: /app
+    ports:
+      - "8090:8090"
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_SSL_ROOT_CERT: ${DB_SSL_ROOT_CERT}
+      MQTT_HOST: ${MQTT_HOST}
+      MQTT_PORT: ${MQTT_PORT}
+      MQTT_USERNAME: ${MQTT_USERNAME}
+      MQTT_PASSWORD: ${MQTT_PASSWORD}
+      MQTT_TOPIC: ${MQTT_TOPIC}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+      FIREBASE_SERVICE_ACCOUNT_PATH: ${FIREBASE_SERVICE_ACCOUNT_PATH}

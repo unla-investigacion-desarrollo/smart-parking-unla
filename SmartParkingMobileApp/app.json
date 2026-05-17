@@ -1,7 +1,12 @@
 {
   "expo": {
     "name": "SmartParkingMobileApp",
-    "slug": "SmartParkingMobileApp",
+    "slug": "SmartParkingApp",
+    "extra": {
+      "eas": {
+        "projectId": "d36e3f89-384c-4f4e-9a90-9e3942e839cc"
+      }
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
