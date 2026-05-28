@@ -30,8 +30,8 @@ const char *WIFI_PASSWORD = "sanlorenzo2023v2";
 const char *MQTT_BROKER_HOST = "129.212.182.8";
 const int MQTT_BROKER_PORT = 1883;
 const char *MQTT_BROKER_TOPIC = "testtopic/sensors";
-const char *MQTT_BROKER_USERNAME = "myuser";
-const char *MQTT_BROKER_PASSWORD = "mypassword";
+const char *MQTT_BROKER_USERNAME = "";
+const char *MQTT_BROKER_PASSWORD = "";
 //TIEMPO ENTRE MEDICIONES EN MILISEGUNDOS
 const int TIME_DELAY = 30000; //30s
 
