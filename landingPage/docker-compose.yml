@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    restart: always
+    container_name: smart_parking_home_app
+    ports:
+      - "5009:5009"
+    volumes:
+      - .:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 5009 --reload
+
