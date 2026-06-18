@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
     <style>
         * {
             margin: 0;
@@ -289,7 +290,11 @@
             padding: 1.5rem;
             text-align: center;
         }
-
+        .feature-card-button {
+            border-radius: 16px;
+            padding: 0.25rem;
+            text-align: center;
+        }
         .feature-icon {
             width: 48px;
             height: 48px;
@@ -376,7 +381,7 @@
 <body>
     <header>
         <div class="logo-container">
-            <img src="unla_logo.png" alt="Logo Universidad Nacional de Lanús" class="logo-img">
+            <img src="/static/templates/unla_logo.png" alt="Logo Universidad Nacional de Lanús" class="logo-img">
             <span class="logo-text">UnLa</span>
         </div>
         <div class="badge">
@@ -393,7 +398,7 @@
         <section class="qr-section">
             <div class="qr-card">
                 <div class="qr-image-container">
-                    <img src="qr.png" alt="Código QR para descargar la aplicación" class="qr-image">
+                    <img src="/static/qr.png" alt="Código QR para descargar la aplicación" class="qr-image">
                 </div>
                 <p class="qr-label">Escaneá el código QR para descargar</p>
                 <div class="android-badge">
@@ -415,15 +420,27 @@
         </section>
 
         <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-16by9">
+                    <img
+                        src="/static/templates/tesis.png"
+                        alt="Placeholder image"
+                    />
+                    </figure>
                 </div>
-                <h3>Documentación</h3>
-                 <p><a href="" class="download-btn_muted download-btn">
+            <div class="card-content">
+                <div class="media">
+                <div class="media-content">
+                    <p class="title is-4">Documentación</p>
+                    <p class="subtitle is-6">ver el TFI</p>
+                </div>
+                </div>
+                <div class="content">
+                Todo sobre el sistema. Su problemática, su desarrollo, su implementación y sus resultados. 
+                </div>
+                    <div class="feature-card-button" style="background-color:white;border:none;"> 
+                        <p><a href="https://docs.google.com/document/d/1wBwC57d4AzG1-v7pMlNcLsYZbajTIFbyKXJDnwOUegA/edit?tab=t.0" class="download-btn_muted download-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                     <polyline points="7 10 12 15 17 10"></polyline>
@@ -431,43 +448,75 @@
                 </svg>
                 [En Proceso]
             </a></p>
-            </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
-                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
-                    </svg>
+                    </div>  
                 </div>
-                <h3>Ver la Presentación</h3>
-                <p><a href="https://docs.google.com/presentation/d/1zyScmksFpqctTUZB6o9jE3efbHrEy--Bc9UV1Eueeo8/edit?usp=sharing" class="download-btn_info download-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                Ver
-            </a></p>
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-16by9">
+                    <img
+                        src="/static/templates/presentacion.png"
+                        alt="Placeholder image"
+                    />
+                    </figure>
                 </div>
-                <h3>Backend de Administración</h3>
-                <p><a href="http://129.212.182.8:5005" class="download-btn_success download-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                Ingresar
-            </a></p>
+            <div class="card-content">
+                <div class="media">
+                <div class="media-content">
+                    <p class="title is-4">Presentación</p>
+                    <p class="subtitle is-6">ver los slides</p>
+                </div>
+                </div>
+                <div class="content">
+                Introducción al Sistema de Control Inteligente del Estacionamiento. Objetivos del proyecto. 
+                
+                </div>
+                    <div class="feature-card-button" style="background-color:white;border:none;"> 
+                        <p><a href="https://docs.google.com/presentation/d/1zyScmksFpqctTUZB6o9jE3efbHrEy--Bc9UV1Eueeo8/edit?usp=sharing" class="download-btn_info download-btn ">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Ver
+                        </a></p>
+                    </div>  
+                </div>
             </div>
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-16by9">
+                    <img
+                        src="/static/templates/backoffice.png"
+                        alt="Placeholder image"
+                    />
+                    </figure>
+                </div>
+            <div class="card-content">
+                <div class="media">
+                <div class="media-content">
+                    <p class="title is-4">Backoffice</p>
+                    <p class="subtitle is-6">administración de la aplicación</p>
+                </div>
+                </div>
+                <div class="content">
+                Agregar sensores. Administrar sensores en actividad. Datos para análisis. <a>#Python</a> <a>#Flask</a>
+                    <a href="#">#responsive</a> 
+                </div>
+                    <div class="feature-card-button" style="background-color:white;border:none;"> 
+                        <p><a href="https://backoffice.puedoestacionar.com.ar" class="download-btn_success download-btn ">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Ingresar
+                        </a></p>
+                    </div>  
+                </div>
+            </div>
+            <div></div>
+            
         </section>
     </main>
 
@@ -480,7 +529,7 @@
     <script>
         document.getElementById('downloadBtn').addEventListener('click', function(e) {
             e.preventDefault();
-            const apkUrl = 'https://puedoestacionar.com.ar/build-1778794211341.apk';
+            const apkUrl = '/static/templates/build-1778794211341.apk';
             window.location.href = apkUrl;
         });
     </script>
