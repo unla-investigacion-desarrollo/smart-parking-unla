@@ -1,7 +1,7 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { Avatar, Card, Text } from "react-native-paper";
+import { Avatar, Button, Card, Text } from "react-native-paper";
 
 const IconoLibre = (props) => (
   <Avatar.Icon
@@ -58,11 +58,9 @@ export default function HomeCard({ sensor, someNumber, onPress }) {
             last updated: {sensor.updated_at.seconds}
           </Text>
         </Card.Content>
-
-        {/*<Card.Actions>
-      <Button>Cancel</Button>
-      <Button>Ok</Button>
-    </Card.Actions>*/}
+        <Card.Actions>
+          {sensor.free ? <Button>Reservar</Button> : null}
+        </Card.Actions>
       </Card>
     </Pressable>
   );

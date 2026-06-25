@@ -80,7 +80,7 @@ def edit_parking_slot(id):
         slot.status = request.form['status']
         db.session.commit()
 
-        return redirect(url_for('list_parking_slots'))
+        return redirect(url_for('parking_slot.list_parking_slots'))
 
     return render_template('edit_parking_slot.html', slot=slot, sensors=sensors, parking_slot_groups=parking_slot_groups)
 

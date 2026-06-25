@@ -1,7 +1,7 @@
 import { db } from "@/firebaseConfig";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import HomeCard from "../components/HomeCard";
 import OSMMap from "../components/OSMMap";
 
@@ -23,7 +23,7 @@ const Home = () => {
     setSelectedSensor(sensor); // Send sensor info to the map
   };
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <OSMMap markers={sensors} selectedMarker={selectedSensor} />
       {sensors.map((sensor, idx) => (
         <HomeCard
@@ -37,4 +37,9 @@ const Home = () => {
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    marginBottom: 10,
+  },
+});
 export default Home;
