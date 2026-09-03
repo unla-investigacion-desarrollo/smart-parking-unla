@@ -11,7 +11,11 @@ templates = Jinja2Templates(directory="app/static/templates")
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     return templates.TemplateResponse(request=request,name="home.html")
-    
+
+@app.get("/resoluciones_unla", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse(request=request,name="resoluciones_unla.html")
+        
 if __name__ == "__main__":
     import uvicorn
 
