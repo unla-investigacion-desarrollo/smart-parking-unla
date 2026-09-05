@@ -23,8 +23,7 @@ class Sensor(db.Model):
     name = sa.Column(sa.String(255),nullable=False,unique=True)
     sensor_uid = sa.Column(sa.String(255),nullable=False,index=True,unique=True)
     distance = sa.Column(sa.Float,nullable=False)
-    latitude = sa.Column(sa.String(255),nullable=False)
-    longitude = sa.Column(sa.String(255),nullable=False)
+    is_maximum = sa.Column(sa.Integer,nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)   
 

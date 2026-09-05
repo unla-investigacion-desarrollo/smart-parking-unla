@@ -73,8 +73,7 @@ def add_sensor():
     if request.method == 'POST':
         name = request.form.get('name')
         distance = request.form.get('distance')
-        latitude = request.form.get('latitude')
-        longitude = request.form.get('longitude')
+        is_maximum = request.form.get('is_maximum')
 
         sensor_uid =  generate_uid()
 
@@ -82,8 +81,7 @@ def add_sensor():
             name=name,
             sensor_uid=sensor_uid,
             distance=float(distance),
-            latitude=latitude,
-            longitude=longitude,
+            is_maximum=int(is_maximum),
         )
 
         db.session.add(new_sensor)
@@ -137,22 +135,30 @@ def generate_config():
     # Get WiFi credentials from the form
     wifi_ssid = request.args.get('wifi_ssid', '')
     wifi_password = request.args.get('wifi_password', '')
-
+    sensor_pins = [
+        {"trig": 26, "echo": 13},
+        {"trig": 27, "echo": 14},
+        {"trig": 25, "echo": 32},
+        {"trig": 33, "echo": 35},
+    ]      
     # Generate the configuration content
     sensor_uids = [sensor.sensor_uid for sensor in selected_sensors]
     sensor_config = ""
-    for i, sensor_uid in enumerate(sensor_uids, start=12):
-        sensor_config += f'  {{"{sensor_uid}", {i + 1}}},\n'
+    for i, sensor_uid in enumerate(sensor_uids):
+        sensor_config += (
+            f'  {{"{sensor_uid}", '
+            f'{sensor_pins[i]["trig"]}, '
+            f'{sensor_pins[i]["echo"]}}},\n'
+        )
 
     env_content = f'''
 #ifndef CONF_H
 #define CONF_H
 
-#define TRIG_PIN 12
-
 struct Sensor {{
-  const char* uid;
-  int echoPin;
+    const char* uid;
+    int trigPin;
+    int echoPin;
 }}; 
 
 const Sensor sensors[] = {{{sensor_config}}};
@@ -162,7 +168,7 @@ const int NUM_SENSORS = sizeof(sensors) / sizeof(sensors[0]);
 const char *WIFI_SSID = "{wifi_ssid}";
 const char *WIFI_PASSWORD = "{wifi_password}";
 
-const char *MQTT_BROKER_HOST = "127.0.0.0";
+const char *MQTT_BROKER_HOST = "129.212.182.8";
 const int MQTT_BROKER_PORT = 1883;
 const char *MQTT_BROKER_TOPIC = "testtopic/sensors";
 const char *MQTT_BROKER_USERNAME = "myuser";

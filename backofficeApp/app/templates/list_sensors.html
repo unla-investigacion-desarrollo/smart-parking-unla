@@ -12,7 +12,7 @@
     <h2 class="mb-4">Sensores</h2>
     <form action="{{ url_for('control_sensor.generate_env') }}" method="POST">
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary" id="generateEnvBtn" disabled>Generate .env file</button>
+            <button type="submit" class="btn btn-primary" id="generateEnvBtn" disabled>Generate .env file (MIN 1 - MAX 4 sensores)</button>
         </div>
         <div class="mb-3">
             <a href="{{ url_for('control_sensor.add_sensor') }}" class="btn btn-success">Agregar Sensor</a>
@@ -25,8 +25,7 @@
                     <th>Name</th>
                     <th>UID</th>
                     <th>Distance</th>
-                    <th>Latitude</th>
-                    <th>Longitude</th>
+                    <th>is_maximum?</th>
                     <th>Created</th>
                 </tr>
             </thead>
@@ -40,8 +39,7 @@
                     <td>{{ sensor.name }}</td>
                     <td>{{ sensor.sensor_uid }}</td>
                     <td>{{ sensor.distance }}</td>
-                    <td>{{ sensor.latitude }}</td>
-                    <td>{{ sensor.longitude }}</td>
+                    <td>{{ sensor.is_maximum }}</td>
                     <td>{{ sensor.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                 </tr>
                 {% endfor %}
