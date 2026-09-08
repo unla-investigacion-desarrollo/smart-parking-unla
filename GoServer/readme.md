@@ -3,6 +3,7 @@ El funcionamiento es el siguiente: desarrollamos de forma local y luego hacemos 
 
 ### development mode
 docker compose -f docker-compose.local.yml up --build
+localhost:8090
 
 ### prod mod
 (Locally)

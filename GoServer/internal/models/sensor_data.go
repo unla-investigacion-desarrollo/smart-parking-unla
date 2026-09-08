@@ -8,6 +8,7 @@ type SensorData struct {
 	Distance  float64   `gorm:"type:decimal" json:"distance"`
 	Processed int       `gorm:"type:boolean" json:"processed"`
 	UpdatedAt time.Time `gorm:"type:timestamp" json:"updated_at"`
+	CreatedAt time.Time `gorm:"type:timestamp" json:"created_at"`
 }
 
 func (SensorData) TableName() string {
@@ -17,7 +18,7 @@ func (SensorData) TableName() string {
 // formato de la data que viene de la placa
 type SensorDataMessage struct {
 	Distance  float64 `json:"distance"`
-	UpdatedAt int64   `json:"updated_at"`
+	CreatedAt int64   `json:"created_at"`
 	SensorID  string  `json:"sensor_id"`
 	Processed int     `json:"processed"`
 }

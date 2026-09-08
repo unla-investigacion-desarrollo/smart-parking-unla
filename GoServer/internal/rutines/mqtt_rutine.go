@@ -50,7 +50,7 @@ func StartMQTT(ctx context.Context) {
 			SensorUID: payload.SensorID,
 			Distance:  payload.Distance,
 			Processed: 0,
-			UpdatedAt: time.Unix(payload.UpdatedAt, 0),
+			CreatedAt: time.Unix(payload.CreatedAt, 0),
 		}
 		//start := time.Now()
 

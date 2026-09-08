@@ -24,7 +24,7 @@ func main() {
 	go rutines.StartCron(ctx)
 	log.Println("services started, blocking forever")
 
-	<-ctx.Done() // ⬅️ THIS LINE IS REQUIRED
+	<-ctx.Done() 
 
 	log.Println("shutdown signal received")
 }
