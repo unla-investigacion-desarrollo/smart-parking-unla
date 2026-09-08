@@ -62,7 +62,7 @@ def sensor_data():
 def list_sensors():
     page = request.args.get('page', 1, type=int)
     per_page = 10
-    pagination = Sensor.query.paginate(page=page, per_page=per_page, error_out=False)
+    pagination = Sensor.query.filter(Sensor.deleted_at.is_(None)).paginate(page=page, per_page=per_page, error_out=False)
     sensors = pagination.items
 
     return render_template('list_sensors.html', sensors=sensors, pagination=pagination)
@@ -98,11 +98,11 @@ def generate_uid(length=8):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
 
-@control_sensor_blueprint.route('/sensors/delete/<int:sensor_id>', methods=['POST'])
+@control_sensor_blueprint.route('/delete/<int:sensor_id>', methods=['GET'])
 def delete_sensor(sensor_id):
     sensor = Sensor.query.get(sensor_id)
     if sensor:
-        db.session.delete(sensor)
+        sensor.deleted_at = datetime.now(timezone.utc)
         db.session.commit()
     return redirect(url_for('control_sensor.list_sensors'))
 

@@ -27,6 +27,7 @@
                     <th>Distance</th>
                     <th>is_maximum?</th>
                     <th>Created</th>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +42,8 @@
                     <td>{{ sensor.distance }}</td>
                     <td>{{ sensor.is_maximum }}</td>
                     <td>{{ sensor.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>    <a href="{{ url_for('control_sensor.delete_sensor', sensor_id=sensor.id) }}" class="btn btn-danger">Delete</a></tr>
+                    
                 </tr>
                 {% endfor %}
             </tbody>

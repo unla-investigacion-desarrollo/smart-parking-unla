@@ -26,6 +26,7 @@ class Sensor(db.Model):
     is_maximum = sa.Column(sa.Integer,nullable=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)   
+    deleted_at = Column(DateTime, nullable=True)
 
 class ParkingSlotGroup(db.Model):
     __tablename__ = 'parking_slot_group'
