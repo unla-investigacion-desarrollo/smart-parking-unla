@@ -1,4 +1,3 @@
-import React from "react";
 import { Dimensions } from "react-native";
 import { WebView } from "react-native-webview";
 const { width, height } = Dimensions.get("window");
@@ -127,7 +126,7 @@ export default function MapTilerMap({ markers, selectedMarker }) {
 
             var marker = L.marker([lat, lng], { icon: rippleIcon })
               .addTo(map)
-              .bindPopup(m.name + " (" + m.status + ")");
+              .bindPopup(m.parking_slot_name + " (" + m.parking_slot_group_name + ") " + m.status);
             
             leafletMarkers.push({ data: m, marker });
           });

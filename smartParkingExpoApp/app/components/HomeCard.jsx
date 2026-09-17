@@ -1,8 +1,7 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import React from "react";
+import { router } from "expo-router";
 import { Pressable, StyleSheet } from "react-native";
 import { Avatar, Button, Card, Text } from "react-native-paper";
-
 const IconoLibre = (props) => (
   <Avatar.Icon
     {...props}
@@ -35,31 +34,38 @@ export default function HomeCard({ sensor, someNumber, onPress }) {
     <Pressable onPress={onPress}>
       <Card key={sensor.id} style={styles.container}>
         <Card.Title
-          title={"Slot id " + sensor.id + " Name " + sensor.name}
-          subtitle={" Slot Group " + sensor.parking_slot_group_id}
+          title={sensor.parking_slot_name}
+          subtitle={" Estacionamiento: " + sensor.parking_slot_group_name}
           left={sensor.free ? IconoLibre : IconoOcupado}
         />
         <Card.Cover
           source={{
-            uri:
-              "http://129.212.182.8:5005/static/images/est" +
-              someNumber +
-              ".png",
+            uri: sensor.image,
           }}
         />
         <Card.Content>
-          <Text variant="bodyMedium">Sensor ID: {sensor.sensor_id}</Text>
+          <Text variant="bodyMedium">Sensor UID: {sensor.sensor_uid}</Text>
           <Text variant="bodyMedium">
-            is free: {sensor.free} {sensor.free ? <GreenFlag /> : <RedFlag />}
+            estado: {sensor.status} {sensor.free ? <GreenFlag /> : <RedFlag />}
           </Text>
-          <Text variant="bodyMedium">status: {sensor.status}</Text>
-          <Text variant="bodyMedium">distance: {sensor.distance}</Text>
+          <Text variant="bodyMedium">distancia: {sensor.distance} cm.</Text>
           <Text variant="bodyMedium">
-            last updated: {sensor.updated_at.seconds}
+            actualizado: {sensor.updated_at.toDate().toLocaleString("es-AR")}
           </Text>
         </Card.Content>
         <Card.Actions>
-          {sensor.free ? <Button>Reservar</Button> : null}
+          {sensor.free ? (
+            <Button
+              onPress={() =>
+                router.push({
+                  pathname: "/screens/reserva",
+                  params: { id: sensor.sensor_uid },
+                })
+              }
+            >
+              Reservar
+            </Button>
+          ) : null}
         </Card.Actions>
       </Card>
     </Pressable>
