@@ -41,6 +41,7 @@ func runJob(ctx context.Context) {
 		return
 	}
 	var wg sync.WaitGroup
+	//creamos un channel de 20 para no limitar la concurrencia
 	sem := make(chan struct{}, 20)
 
 	for _, sensor := range sensors {
@@ -54,7 +55,6 @@ func runJob(ctx context.Context) {
 				Where("processed = ?", 0).
 				Where("sensor_uid = ?", sensor.SensorUID).
 				Order("id DESC").
-				Limit(10).
 				Find(&rows).
 				Error
 
@@ -87,10 +87,9 @@ func runJob(ctx context.Context) {
 				processParkingSlot(ctx, sensor, averageDistance)
 			}
 		}()
-		wg.Wait() // block until every goroutine for this tick has finished
-		log.Println("tick finished, all sensors processed")
 	}
-
+	wg.Wait() // block until every goroutine for this tick has finished
+	log.Println("tick finished, all sensors processed")
 }
 
 func processParkingSlot(ctx context.Context, sensor models.Sensor, averageDistance float64) {
