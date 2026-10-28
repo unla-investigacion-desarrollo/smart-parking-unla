@@ -41,7 +41,7 @@ func runJob(ctx context.Context) {
 		return
 	}
 	var wg sync.WaitGroup
-	//creamos un channel de 20 para no limitar la concurrencia
+	//creamos un channel de 20 para limitar la concurrencia
 	sem := make(chan struct{}, 20)
 
 	for _, sensor := range sensors {
